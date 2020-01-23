@@ -1,37 +1,29 @@
-# Wordpress-Custom-REST-API
-Wordpress REST api comes with some default routes, some times you need to extend Wordpres REST API and create your own custom routes and endpoints.
+<?php
+/**.
+ * User: Rahat Hameed
+ * Date: 23-Jan-20
+ * Time: 5:29 PM
+ */
 
-Place this file in root directory of wordpress and add following code to include it inside your functions.php file.
-require_once('wp_rest_api.php');
+add_action( 'rest_api_init', function () {
 
-<b>Below is simple code to create Helloworld end point for REST API</b>
+    $namespace = 'wp_custom_apis/v1';
 
-    add_action( 'rest_api_init', function () {
-
-        $namespace = 'wp_custom_apis/v1';
-        register_rest_route( $namespace, 'get_helloworld', array(
-            'methods' => 'GET',
-            'callback' => 'helloworld',
-        ));
-    
-    
-        function helloworld(){
-    
-            $data = array(
-                    'message'=> 'Hello World',
-                    'API endoint' => 'helloworld'
-                );
-            return new WP_REST_Response( $data, 200 );
-        }
-    } );
-    
-# Parameters
-We are using register_rest_route with below parameters:
-<b>First Parameter:</b> this is our custom namespace  custom_apis/v1
-<b>Second Parameter:</b> this is our end point.
+    register_rest_route( $namespace, 'get_helloworld', array(
+        'methods' => 'GET',
+        'callback' => 'helloworld',
+    ));
 
 
-# Example
+    function helloworld(){
+
+        $data = array(
+                'message'=> 'Hello World',
+                'API endoint' => 'helloworld'
+            );
+        return new WP_REST_Response( $data, 200 );
+    }
+
 
     register_rest_route( $namespace, 'get_posts', array(
         'methods' => 'GET',
@@ -88,10 +80,8 @@ We are using register_rest_route with below parameters:
         }
 
     }
-    
-# How to Call It:
 
-http://domain_name/wp-json/[NameSpace]/[EndPoint]
-In above example our REST API url will be as follow
-http://domain_name/wp-json/wp_custom_apis/v1/get_helloword 
 
+} );
+
+?>
